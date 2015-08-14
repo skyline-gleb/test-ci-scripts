@@ -32,12 +32,12 @@ Invoke-Git ('add', $changelogPath) -Verbose
 
 # Git commit and push
 Invoke-GitCommit "Version $version" -Verbose
-Invoke-Git ('push', 'origin') -Verbose
+Invoke-Git ('push', 'origin', 'master') -Verbose
 
 # Git tag and push
 $buildUrl = $env:BUILD_URL
 Invoke-GitTag "Version '$version'. Build url '$buildUrl'." "v$version" -Verbose
-Invoke-Git ('push', 'origin', "v$version") -Verbose
+Invoke-Git ('push', 'origin', 'master', "v$version") -Verbose
 
 # Push nuget-package
 $package = Join-Path $releaseDir '*.nupkg'

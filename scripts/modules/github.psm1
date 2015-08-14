@@ -46,6 +46,9 @@ Function Invoke-CreateGitHubRelease()
     
     try
     {
+        Write-Output '---> Create GitHub release.'
+        Write-Verbose "Query uri: " + $releaseParams.Uri
+        Write-Verbose "Release name: $name"
         $result = Invoke-RestMethod @releaseParams
     
         if (!$releaseDir)
@@ -67,9 +70,12 @@ Function Invoke-CreateGitHubRelease()
                 ContentType = 'application/zip'
                 InFile = $uploadFile
             }
-        
-            Invoke-RestMethod @uploadParams
+            
+            Invoke-RestMethod @uploadParams | Out-Null
+            Write-Verbose "Release artifact: $artifact"
         }
+        
+        Write-Output '---> Create GitHub release succeeded.'
     }
     catch
     {
