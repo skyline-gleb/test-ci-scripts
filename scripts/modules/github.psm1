@@ -26,8 +26,7 @@ Function Invoke-CreateGitHubRelease()
     $name = "v$version"
     
     $headers = @{
-        Authorization = 'Basic ' + [Convert]::ToBase64String(
-        [Text.Encoding]::ASCII.GetBytes($GitHubApiKey + ":x-oauth-basic"))
+        Authorization = "token $GitHubApiKey"
     }
     
     $releaseData = @{
@@ -45,29 +44,37 @@ Function Invoke-CreateGitHubRelease()
         Body = (ConvertTo-Json $releaseData -Compress)
     }
     
-    $result = Invoke-RestMethod @releaseParams
-    
-    if (!$releaseDir)
+    try
     {
-        return
-    }
+        $result = Invoke-RestMethod @releaseParams
     
-    $uploadUrl = $result | Select -ExpandProperty upload_url
-    $artifacts = Get-ChildItem -Path $releaseDir
-    foreach ($artifact in $artifacts)
-    {
-        $uploadUri = $uploadUrl -replace '\{\?name\}', "?name=$artifact"
-        $uploadFile = Join-Path -path $releaseDir -childpath $artifact
-
-        $uploadParams = @{
-            Uri = $uploadUri
-            Method = 'POST'
-            Headers = $headers
-            ContentType = 'application/zip'
-            InFile = $uploadFile
+        if (!$releaseDir)
+        {
+            return
         }
-    
-        Invoke-RestMethod @uploadParams
+        
+        $uploadUrl = $result | Select -ExpandProperty upload_url
+        $artifacts = Get-ChildItem -Path $releaseDir
+        foreach ($artifact in $artifacts)
+        {
+            $uploadUri = $uploadUrl -replace '\{\?name\}', "?name=$artifact"
+            $uploadFile = Join-Path -path $releaseDir -childpath $artifact
+
+            $uploadParams = @{
+                Uri = $uploadUri
+                Method = 'POST'
+                Headers = $headers
+                ContentType = 'application/zip'
+                InFile = $uploadFile
+            }
+        
+            Invoke-RestMethod @uploadParams
+        }
+    }
+    catch
+    {
+        Write-Output $_.Exception.Message
+        Exit 1
     }
 }
 
