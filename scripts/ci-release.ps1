@@ -12,11 +12,11 @@ $description = $env:release_description
 
 # Update AssembyInfo
 $assemblyInfoPath = '..\src\ShortName\Properties\AssemblyInfo.cs'
-#Update-AssemblyInfo $assemblyInfoPath $version -Verbose
+Update-AssemblyInfo $assemblyInfoPath $version -Verbose
 
 # Update CHANGELOG.md
 $changelogPath = '..\CHANGELOG.md'
-#Update-Changelog $changelogPath $version $description -Verbose
+Update-Changelog $changelogPath $version $description -Verbose
 
 # Build
 # Test
@@ -24,20 +24,20 @@ $changelogPath = '..\CHANGELOG.md'
 Import-Module '.\PrepareRelease.ps1'
 
 # Git checkout master
-#Invoke-Git ('checkout', 'master')
+Invoke-Git ('checkout', 'master')
 
 # Git add changes
-#Invoke-Git ('add', $assemblyInfoPath) -Verbose
-#Invoke-Git ('add', $changelogPath) -Verbose
+Invoke-Git ('add', $assemblyInfoPath) -Verbose
+Invoke-Git ('add', $changelogPath) -Verbose
 
 # Git commit and push
-#Invoke-GitCommit "Version $version" -Verbose
-#Invoke-Git ('push', 'origin') -Verbose
+Invoke-GitCommit "Version $version" -Verbose
+Invoke-Git ('push', 'origin') -Verbose
 
 # Git tag and push
 $buildUrl = $env:BUILD_URL
-#Invoke-GitTag "Version '$version'. Build url '$buildUrl'." "v$version" -Verbose
-#Invoke-Git ('push', 'origin', "v$version") -Verbose
+Invoke-GitTag "Version '$version'. Build url '$buildUrl'." "v$version" -Verbose
+Invoke-Git ('push', 'origin', "v$version") -Verbose
 
 # Push nuget-package
 $package = Join-Path $releaseDir '*.nupkg'
