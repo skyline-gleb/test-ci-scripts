@@ -44,4 +44,4 @@ $package = Join-Path $releaseDir '*.nupkg'
 #Invoke-NuGetPush $package -Verbose
 
 # Create github release
-Invoke-CreateGitHubRelease ('skyline-gleb', 'test-ci-scripts', $version, $description, $releaseDir) -Verbose
+Invoke-CreateGitHubRelease 'skyline-gleb' 'test-ci-scripts' $version $description $releaseDir -Verbose
