@@ -47,7 +47,7 @@ Function Invoke-CreateGitHubRelease()
     try
     {
         Write-Output '---> Create GitHub release.'
-        Write-Verbose "Query uri: " + $releaseParams.Uri
+        Write-Verbose ("Query uri: " + $releaseParams.Uri)
         Write-Verbose "Release name: $name"
         $result = Invoke-RestMethod @releaseParams
     

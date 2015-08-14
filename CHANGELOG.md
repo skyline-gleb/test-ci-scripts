@@ -1,7 +1,12 @@
 ﻿# Change Log
 
 <!--## Unreleased-->
-## v1.1.1
+## v1.1.2
+
+- release from jenkins build
+
+
+## v1.1.1
 
 - release from jenkins build
 
@@ -42,6 +47,7 @@
 
 
 
+
 
 
 
