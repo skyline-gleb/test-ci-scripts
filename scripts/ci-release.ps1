@@ -1,10 +1,11 @@
-Set-StrictMode -Version Latest
+﻿Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 #------------------------------
 
 Import-Module '.\modules\versioning.psm1'
 Import-Module '.\modules\changelog.psm1'
 Import-Module '.\modules\git.psm1'
+Import-Module '.\modules\github.psm1'
 
 $version = $env:release_version
 $description = $env:release_description
@@ -19,7 +20,7 @@ Update-Changelog $changelogPath $version $description -Verbose
 
 # Build
 # Test
-# Create nuget-package in '..\Release' folder
+# Create nuget-package in '$releaseDir' folder
 Import-Module '.\PrepareRelease.ps1'
 
 # Git checkout master
@@ -43,3 +44,4 @@ $package = Join-Path $releaseDir '*.nupkg'
 #Invoke-NuGetPush $package -Verbose
 
 # Create github release
+Invoke-CreateGitHubRelease ('skyline-gleb', 'test-ci-scripts', $version, $description, $releaseDir) -Verbose
