@@ -2,8 +2,12 @@
 $ErrorActionPreference = 'Stop'
 #------------------------------
 
+Import-Module '.\ProjectData.psd1'
 Import-Module '.\modules\versioning.psm1'
 Import-Module '.\modules\changelog.psm1'
+Import-Module '.\modules\msbuild.psm1'
+Import-Module '.\modules\nunit.psm1'
+Import-Module '.\modules\nuget.psm1'
 Import-Module '.\modules\git.psm1'
 Import-Module '.\modules\github.psm1'
 
@@ -11,20 +15,22 @@ $version = $env:release_version
 $description = $env:release_description
 
 # Update AssembyInfo
-$assemblyInfoPath = '..\src\ShortName\Properties\AssemblyInfo.cs'
 Update-AssemblyInfo $assemblyInfoPath $version -Verbose
 
 # Update CHANGELOG.md
-$changelogPath = '..\CHANGELOG.md'
 Update-Changelog $changelogPath $version $description -Verbose
 
 # Build
+Invoke-MSBuild $solution $msbuildProperties -Verbose
+
 # Test
-# Create nuget-package in '$releaseDir' folder
-Import-Module '.\PrepareRelease.ps1'
+Invoke-NUnit $testFile -Verbose
+
+# Create nuget-package
+Invoke-NuGetPack $project $configuration $releaseDir -Verbose
 
 # Git checkout master
-Invoke-Git ('checkout', 'master')
+Invoke-Git ('checkout', 'master') -Verbose
 
 # Git add changes
 Invoke-Git ('add', $assemblyInfoPath) -Verbose
