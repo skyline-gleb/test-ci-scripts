@@ -39,6 +39,7 @@ Invoke-Git ('checkout', 'master') -Verbose
 # Git add changes
 Invoke-Git ('add', $assemblyInfoPath) -Verbose
 Invoke-Git ('add', $changelogPath) -Verbose
+Invoke-Git ('add', $nuspecPath) -Verbose
 
 # Git commit and push
 Invoke-GitCommit "Version $version" -Verbose
