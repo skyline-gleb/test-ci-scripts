@@ -91,7 +91,7 @@ Function Update-Nuspec()
     )
     
     $nl = [Environment]::NewLine
-    $releaseNotes = "v$version" + $nl + $description + $nl
+    $releaseNotes = $nl + "v$version" + $nl + $description + $nl
     
     Write-Output '---> Run Nuspec file update.'
     Write-Verbose "Nuspec file path: $nuspecPath"
