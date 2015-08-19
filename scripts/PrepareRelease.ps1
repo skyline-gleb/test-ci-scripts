@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop'
 #------------------------------
 
-Import-Module '.\ProjectData.psd1'
+Import-Module '.\ProjectData.ps1'
 Import-Module '.\modules\msbuild.psm1'
 Import-Module '.\modules\nunit.psm1'
 Import-Module '.\modules\nuget.psm1'
@@ -16,7 +16,7 @@ New-Item -ItemType directory -Path $releaseDir | Out-Null
 
 Write-Output "Update CHANGELOG.md"
 Write-Host "Update version in Assemblies"
-Write-Host "Update release notes in NuSpec file"
+Write-Host "Update release notes in Nuspec file"
 
 Pause
 

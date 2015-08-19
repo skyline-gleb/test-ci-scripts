@@ -1,4 +1,4 @@
-Set-StrictMode -Version Latest
+﻿Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 #------------------------------
 
@@ -8,8 +8,9 @@ $solution = Join-Path $solutionDir 'ShortName.sln'
 $project = Join-Path $solutionDir 'ShortName\ShortName.csproj'
 $testFile = Join-Path $solutionDir "ShortName.Tests\bin\$configuration\ShortName.Tests.dll"
 $releaseDir = Join-Path $PSScriptRoot '../Release'
-$assemblyInfoPath = '..\src\ShortName\Properties\AssemblyInfo.cs'
-$changelogPath = '..\CHANGELOG.md'
+$assemblyInfoPath = Join-Path $solutionDir 'ShortName\Properties\AssemblyInfo.cs'
+$changelogPath = Join-Path $PSScriptRoot '..\CHANGELOG.md'
+$nuspecPath = Join-Path $solutionDir 'ShortName\ShortName.nuspec'
 
 $msbuildProperties = @{
     'Configuration' = $configuration

@@ -76,4 +76,30 @@ Function Invoke-NuGet($arguments)
     }
 }
 
-Export-ModuleMember -Function Invoke-NuGetPack, Invoke-NuGetPush
+Function Update-Nuspec()
+{
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory=$True)]
+        [string]$nuspecPath,
+
+        [Parameter(Mandatory=$True)]
+        [string]$version,
+
+        [Parameter(Mandatory=$True)]
+        [string]$description
+    )
+    
+    $nl = [Environment]::NewLine
+    $releaseNotes = "v$version" + $nl + $description + $nl
+    
+    Write-Output '---> Run Nuspec file update.'
+    Write-Verbose "Nuspec file path: $nuspecPath"
+    Write-Verbose "New release notes: $releaseNotes"
+    $xml = [xml](Get-Content $nuspecPath)
+    $xml.package.metadata.releaseNotes = $releaseNotes
+    $xml.Save($nuspecPath)
+    Write-Output '---> Nuspec file update succeeded.'
+}
+
+Export-ModuleMember -Function Invoke-NuGetPack, Invoke-NuGetPush, Update-Nuspec

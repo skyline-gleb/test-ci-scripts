@@ -1,8 +1,8 @@
-Set-StrictMode -Version Latest
+﻿Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 #------------------------------
 
-Import-Module '.\ProjectData.psd1'
+Import-Module '.\ProjectData.ps1'
 Import-Module '.\modules\msbuild.psm1'
 Import-Module '.\modules\nunit.psm1'
 

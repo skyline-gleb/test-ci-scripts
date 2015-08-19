@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop'
 #------------------------------
 
-Import-Module '.\ProjectData.psd1'
+Import-Module '.\ProjectData.ps1'
 Import-Module '.\modules\versioning.psm1'
 Import-Module '.\modules\changelog.psm1'
 Import-Module '.\modules\msbuild.psm1'
@@ -20,6 +20,9 @@ Update-AssemblyInfo $assemblyInfoPath $version -Verbose
 # Update CHANGELOG.md
 Update-Changelog $changelogPath $version $description -Verbose
 
+# Update Nuspec file
+Update-Nuspec $nuspecPath $version $description -Verbose
+
 # Build
 Invoke-MSBuild $solution $msbuildProperties -Verbose
 
@@ -27,6 +30,7 @@ Invoke-MSBuild $solution $msbuildProperties -Verbose
 Invoke-NUnit $testFile -Verbose
 
 # Create nuget-package
+New-Item -ItemType directory -Path $releaseDir | Out-Null
 Invoke-NuGetPack $project $configuration $releaseDir -Verbose
 
 # Git checkout master
