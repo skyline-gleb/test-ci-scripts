@@ -11,6 +11,7 @@ $releaseDir = Join-Path $PSScriptRoot '../Release'
 $assemblyInfoPath = Join-Path $solutionDir 'ShortName\Properties\AssemblyInfo.cs'
 $changelogPath = Join-Path $PSScriptRoot '..\CHANGELOG.md'
 $nuspecPath = Join-Path $solutionDir 'ShortName\ShortName.nuspec'
+$githubProjectName = 'test-ci-scripts'
 
 $msbuildProperties = @{
     'Configuration' = $configuration
